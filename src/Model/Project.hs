@@ -10,7 +10,6 @@ module Model.Project
 import qualified Data.Text as T
 import           Database.PostgreSQL.Simple.FromRow
 import           Snap.Snaplet.PostgresqlSimple
-import qualified GHC.Int
 
 data Project = Project
   { projectId :: Integer
