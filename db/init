@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Initialize the database defined in
+# snaplets/postgresql-simple/devel.cfg.
+#
+# Ensure this file can be sourced by a bash script and uses bash
+# variable syntax; e.g., var=value, not var = value.
+
+set -e
+
+source snaplets/postgresql-simple/devel.cfg
+
+if [[ ! $1 == '-y' ]]
+then
+    echo "WARNING: if the $db postgres database exists, this action will destroy it."
+    read -p "Are you sure you want to continue? [Y/n] " -n 1 -r
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        echo "Aborting"
+        exit 1
+    fi
+fi
+
+dropdb --if-exists $db
+createdb $db
+
+migrations=( 001-projects )
+
+for m in "${migrations[@]}" ; do
+    echo "running db/$m"
+    psql -h $host -p $port $db $user < db/$m.sql
+done

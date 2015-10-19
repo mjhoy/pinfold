@@ -1,0 +1,6 @@
+/bin/
+!/bin/.gitkeep
+/log/
+/dist/
+/snaplets/postgresql-simple/devel.cfg
+/site_key.txt
