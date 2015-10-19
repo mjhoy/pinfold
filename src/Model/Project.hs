@@ -1,9 +1,11 @@
-module Models.Project
+module Model.Project
   ( Project(..)
+  , queryProjectsAll
   ) where
 
 import qualified Data.Text as T
 import           Database.PostgreSQL.Simple.FromRow
+import           Snap.Snaplet.PostgresqlSimple
 
 data Project = Project
   { projectId :: Integer
@@ -22,3 +24,10 @@ instance Show Project where
            "\" }"
     where
       u = T.unpack
+
+
+--------------------------------------------------
+-- | SQL queries
+
+queryProjectsAll :: HasPostgres m => m [Project]
+queryProjectsAll = query_ "SELECT id, title, description FROM projects"

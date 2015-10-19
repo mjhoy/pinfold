@@ -24,7 +24,7 @@ import           Snap.Util.FileServe
 import           Heist
 import qualified Heist.Interpreted as I
 ------------------------------------------------------------------------------
-import           Models.Project
+import           Model.Project
 ------------------------------------------------------------------------------
 import           Application
 
@@ -78,7 +78,7 @@ handleProjects :: Handler App Postgres ()
 handleProjects = method GET getAllProjects
   where
     getAllProjects = do
-      allProjects <- query_ "SELECT id,title,description FROM projects"
+      allProjects <- queryProjectsAll
       liftIO $ print (allProjects :: [Project])
 
 ------------------------------------------------------------------------------
