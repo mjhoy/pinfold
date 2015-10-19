@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Model.Project
   ( Project(..)
@@ -22,9 +23,9 @@ instance FromRow Project where
 
 instance Show Project where
   show (Project i t d) =
-      "Project { id: " ++ show i ++
-             ", title: \"" ++ u t ++
-           "\", description: \"" ++ u d ++
+      "Project { projectId: " ++ show i ++
+             ", projectTitle: \"" ++ u t ++
+           "\", projectDescription: \"" ++ u d ++
            "\" }"
     where
       u = T.unpack
@@ -34,11 +35,18 @@ instance Show Project where
 -- | SQL queries
 
 queryProjectsAll :: HasPostgres m => m [Project]
-queryProjectsAll = query_ "select id, title, description from projects"
+queryProjectsAll = query_ "select pid, title, description from projects"
 
 insertProject :: HasPostgres m =>
                  T.Text -> -- Title
                  T.Text -> -- Description
-                 m GHC.Int.Int64
-insertProject t d = execute "insert into projects (title, description) values (?,?)" (t,d)
-
+                 m (Maybe Integer) -- a new project id
+insertProject t d = do
+    [Only r] <- query sql args
+    return $ Just r
+--    case res of
+--      (x:_) -> return $ Just x
+--      []    -> return $ Nothing
+  where
+    sql  = "insert into projects (title, description) values (?,?) returning pid"
+    args = (t,d)

@@ -23,6 +23,7 @@ import           Snap.Snaplet.Session.Backends.CookieSession
 import Site
 import Application
 import Model.Project
+import Model.Item
 ------------------------------------------------------------------------------
 
 testApp :: SnapletInit App App
@@ -41,16 +42,45 @@ evalDb = eval . with db
 
 clearDb :: Handler App App ()
 clearDb = do
-  _ <- execute "truncate projects" ()
+  _ <- execute "delete from items" ()
+  _ <- execute "delete from projects" ()
   return ()
+
+testProject :: Handler App Postgres (Maybe Integer)
+testProject = insertProject "Test project" "Short description"
 
 main :: IO ()
 main = hspec $ snap (route routes) testApp $ do
 
+  let failure s = setResult $ Fail Nothing s
+
   afterEval (void clearDb) $ do
 
-    describe "Model.Project" $ do
+    describe "Model.Item" $ do
+      describe "queryItemsAll" $ do
+        it "is an empty query to begin with" $ do
+          items <- evalDb queryItemsAll
+          items `shouldEqual` []
 
+        it "returns an item we've inserted" $ do
+          ret <- evalDb testProject
+          case ret of
+            Nothing ->
+              failure "could not create test project"
+            Just pid -> do
+              items <- evalDb $ do
+                _ <- insertItem "foo.jpg" (Just "caption") pid
+                queryItemsAll
+              case items of
+                (x:[]) -> do
+                  itemPath x `shouldEqual` "foo.jpg"
+                  case itemCaption x of
+                    Just c -> c `shouldEqual` "caption"
+                    Nothing -> failure "item didn't have expected caption"
+                (_x:_xs) -> failure "expected just one item; more than one"
+                _        -> failure "expected one item; got none"
+
+    describe "Model.Project" $ do
       describe "queryProjectsAll" $ do
 
         it "is an empty query to begin with" $ do
@@ -64,4 +94,3 @@ main = hspec $ snap (route routes) testApp $ do
             (x:[]) -> projectTitle x `shouldEqual` "testing"
             (_x:_xs) -> setResult $ Fail Nothing "Found multiple projects, expecting one"
             _      -> setResult $ Fail Nothing "Found no projects, expecting one"
-        
