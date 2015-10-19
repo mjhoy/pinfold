@@ -8,25 +8,43 @@
 
 set -e
 
-source snaplets/postgresql-simple/devel.cfg
 
-if [[ ! $1 == '-y' ]]
-then
-    echo "WARNING: if the $db postgres database exists, this action will destroy it."
-    read -p "Are you sure you want to continue? [Y/n] " -n 1 -r
-    if [[ ! $REPLY =~ ^[Yy]$ ]]
+setup () {
+    echo
+
+    if [[ ! $1 == '-y' ]]
     then
-        echo "Aborting"
-        exit 1
+        echo "WARNING: about to destroy the database \"$db\""
+        read -p "Are you sure you want to continue? [Y/n] " -n 1 -r
+        if [[ ! $REPLY =~ ^[Yy]$ ]]
+        then
+            echo "Aborting"
+            exit 1
+        fi
     fi
-fi
 
-dropdb --if-exists $db
-createdb $db
+    dropdb --if-exists $db
+    createdb $db
+    echo "createdb $db"
 
-migrations=( 001-projects )
+    migrations=( 001-projects )
 
-for m in "${migrations[@]}" ; do
-    echo "running db/$m"
-    psql -h $host -p $port $db $user < db/$m.sql
-done
+    for m in "${migrations[@]}" ; do
+        echo "running db/$m"
+        psql -h $host -p $port $db $user < db/$m.sql
+    done
+}
+
+# Set up development
+(
+    source snaplets/postgresql-simple/devel.cfg
+    setup $1
+)
+
+# Set up the test databse
+(
+    source snaplets/postgresql-simple/test.cfg
+    setup "-y"
+)
+
+echo $user

@@ -50,3 +50,27 @@ Executable pinfold
   else
     ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
                  -fno-warn-orphans -fno-warn-unused-do-bind
+
+Test-Suite test-pinfold
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test, src
+  main-is: Main.hs
+  Build-depends: bytestring                >= 0.9.1   && < 0.11,
+                 heist                     >= 0.14    && < 0.15,
+                 MonadCatchIO-transformers >= 0.2.1   && < 0.4,
+                 mtl                       >= 2       && < 3,
+                 snap                      >= 0.13    && < 0.15,
+                 snap-core                 >= 0.9     && < 0.10,
+                 snap-server               >= 0.9     && < 0.10,
+                 snap-loader-static        >= 0.9     && < 0.10,
+                 text                      >= 0.11    && < 1.3,
+                 time                      >= 1.1     && < 1.6,
+                 xmlhtml                   >= 0.1     && < 0.3,
+                 snaplet-postgresql-simple >= 0.6     && < 0.7,
+                 postgresql-simple         >= 0.4     && < 0.5,
+                 transformers              >= 0.4.2   && < 0.5,
+
+                 -- test depends:
+                 hspec-snap                >= 0.4     && < 0.5,
+                 hspec,
+                 hspec-core

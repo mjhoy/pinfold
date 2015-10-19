@@ -1,17 +1,21 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Model.Project
   ( Project(..)
   , queryProjectsAll
+  , insertProject
   ) where
 
 import qualified Data.Text as T
 import           Database.PostgreSQL.Simple.FromRow
 import           Snap.Snaplet.PostgresqlSimple
+import qualified GHC.Int
 
 data Project = Project
   { projectId :: Integer
   , projectTitle :: T.Text
   , projectDescription :: T.Text
-  }
+  } deriving (Eq)
 
 instance FromRow Project where
   fromRow = Project <$> field <*> field <*> field
@@ -30,4 +34,11 @@ instance Show Project where
 -- | SQL queries
 
 queryProjectsAll :: HasPostgres m => m [Project]
-queryProjectsAll = query_ "SELECT id, title, description FROM projects"
+queryProjectsAll = query_ "select id, title, description from projects"
+
+insertProject :: HasPostgres m =>
+                 T.Text -> -- Title
+                 T.Text -> -- Description
+                 m GHC.Int.Int64
+insertProject t d = execute "insert into projects (title, description) values (?,?)" (t,d)
+

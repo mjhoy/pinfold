@@ -6,17 +6,17 @@
 Using [[http://nixos.org/nix][Nix]]:
 
 #+begin_src sh
-nix-shell
-cabal configure -fdevelopment
-cabal install --bindir=./bin
+  nix-shell
+  cabal configure -fdevelopment
+  cabal install --bindir=./bin
 
-./bin/pinfold # starts a server on localhost:8000
+  ./bin/pinfold # starts a server on localhost:8000
 #+end_src
 
 Running ghci:
 
 #+begin_src sh
-nix-shell --command 'ghci'
+  nix-shell --command 'ghci'
 #+end_src
 
 *** Postgres
@@ -26,8 +26,17 @@ Make sure Postgres is up and running.
 To set up the database:
 
 #+begin_src sh
-cp ./snaplets/postgresql-simple/devel.cfg.example ./snaplets/postgresql-simple/devel.cfg
-# now edit ./snaplets/postgresql-simple/devel.cfg for your database
-chmod 444 ./snaplets/postgresql-simple/devel.cfg # read-only
-./db/init # warning: this will wipe out the database defined in devel.cfg if exists
+  cd ./snaplets/postgresql-simple
+
+  cp devel.cfg.example devel.cfg
+  cp devel.cfg.example test.cfg
+
+  # now edit devel.cfg and test.cfg with the appropriate settings
+  # make sure you use different databases!
+
+  chmod 444 devel.cfg test.cfg
+
+  cd ../../
+
+  ./db/init # warning: this will wipe out the database defined in devel.cfg if exists
 #+end_src

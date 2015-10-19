@@ -4,3 +4,4 @@
 /dist/
 /snaplets/postgresql-simple/devel.cfg
 /site_key.txt
+/snaplets/postgresql-simple/test.cfg

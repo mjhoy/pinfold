@@ -6,6 +6,7 @@
 -- together and is exported by this module.
 module Site
   ( app
+  , routes
   ) where
 
 ------------------------------------------------------------------------------

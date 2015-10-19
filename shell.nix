@@ -8,6 +8,7 @@ let
       , MonadCatchIO-transformers, mtl, snap, snap-core
       , snap-loader-static, snap-loader-dynamic, snap-server, stdenv, text, time, xmlhtml
       , snaplet-postgresql-simple, transformers, postgresql-simple
+      , hspec-snap, hspec, hspec-core
       , cabal-install
       }:
       mkDerivation {
@@ -20,6 +21,7 @@ let
           base bytestring heist lens MonadCatchIO-transformers mtl snap
           snap-core snap-loader-static snap-loader-dynamic snap-server text time xmlhtml
           snaplet-postgresql-simple transformers postgresql-simple
+          hspec-snap hspec hspec-core
           cabal-install
         ];
         description = "Website for Jim Pinfold";
