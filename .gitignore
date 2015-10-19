@@ -1,5 +1,4 @@
-/bin/
-!/bin/.gitkeep
+/bin/pinfold
 /log/
 /dist/
 /snaplets/postgresql-simple/devel.cfg

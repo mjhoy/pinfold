@@ -40,3 +40,11 @@ To set up the database:
 
   ./db/init # warning: this will wipe out the database defined in devel.cfg if exists
 #+end_src
+
+*** Testing
+
+This will create the test database and run =cabal test= in nix-shell:
+
+#+begin_src sh
+  ./bin/run_tests
+#+end_src

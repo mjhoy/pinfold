@@ -35,16 +35,17 @@ setup () {
     done
 }
 
-# Set up development
-(
-    source snaplets/postgresql-simple/devel.cfg
-    setup $1
-)
+if [[ $1 != '--test' ]]
+then
+    # Set up development
+    (
+        source snaplets/postgresql-simple/devel.cfg
+        setup $1
+    )
+fi
 
 # Set up the test databse
 (
     source snaplets/postgresql-simple/test.cfg
     setup "-y"
 )
-
-echo $user

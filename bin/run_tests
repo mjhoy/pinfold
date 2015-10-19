@@ -1,0 +1,4 @@
+#!/bin/sh
+
+./db/init --test
+nix-shell --command 'cabal test'
