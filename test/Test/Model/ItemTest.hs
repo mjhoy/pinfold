@@ -17,8 +17,9 @@ import Model.Project
 import Application
 ------------------------------------------------------------------------------
 
-testProject :: Handler App Postgres (Maybe Integer)
-testProject = insertProject "Test project" "Short description"
+testProject :: Integer -> Handler App Postgres (Maybe Integer)
+testProject uid = do
+  insertProject "Test project" "Short description" uid
 
 itemTests :: SpecWith (SnapHspecState App)
 itemTests = do
@@ -29,7 +30,8 @@ itemTests = do
         items `shouldEqual` []
 
       it "returns an item we've inserted" $ do
-        ret <- evalDb testProject
+        aid <- eval $ createTestAdmin
+        ret <- evalDb $ testProject aid
         case ret of
           Nothing ->
             failure "could not create test project"

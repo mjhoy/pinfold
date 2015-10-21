@@ -27,7 +27,7 @@ setup () {
     createdb $db
     echo "createdb $db"
 
-    migrations=( 001-projects )
+    migrations=( 001-initial-db )
 
     for m in "${migrations[@]}" ; do
         echo "running db/$m"

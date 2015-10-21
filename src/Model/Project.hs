@@ -13,39 +13,31 @@ import           Snap.Snaplet.PostgresqlSimple
 
 data Project = Project
   { projectId :: Integer
+  , projectAid :: Integer
   , projectTitle :: T.Text
   , projectDescription :: T.Text
-  } deriving (Eq)
+  } deriving (Eq, Show)
 
 instance FromRow Project where
-  fromRow = Project <$> field <*> field <*> field
-
-instance Show Project where
-  show (Project i t d) =
-      "Project { projectId: " ++ show i ++
-             ", projectTitle: \"" ++ u t ++
-           "\", projectDescription: \"" ++ u d ++
-           "\" }"
-    where
-      u = T.unpack
-
+  fromRow = Project <$> field
+                    <*> field
+                    <*> field
+                    <*> field
 
 --------------------------------------------------
 -- | SQL queries
 
 queryProjectsAll :: HasPostgres m => m [Project]
-queryProjectsAll = query_ "select pid, title, description from projects"
+queryProjectsAll = query_ "select pid, aid, title, description from projects"
 
 insertProject :: HasPostgres m =>
-                 T.Text -> -- Title
-                 T.Text -> -- Description
+                 T.Text ->  -- Title
+                 T.Text ->  -- Description
+                 Integer -> -- aid
                  m (Maybe Integer) -- a new project id
-insertProject t d = do
+insertProject t d aid = do
     [Only r] <- query sql args
     return $ Just r
---    case res of
---      (x:_) -> return $ Just x
---      []    -> return $ Nothing
   where
-    sql  = "insert into projects (title, description) values (?,?) returning pid"
-    args = (t,d)
+    sql  = "insert into projects (title, description, aid) values (?,?,?) returning pid"
+    args = (t,d,aid)

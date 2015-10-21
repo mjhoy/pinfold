@@ -24,7 +24,8 @@ projectTests = do
         projects `shouldEqual` []
 
       it "returns a project we've inserted" $ do
-        _ <- evalDb $ insertProject "testing" "description"
+        aid <- eval $ createTestAdmin
+        _ <- evalDb $ insertProject "testing" "description" aid
         projects <- evalDb queryProjectsAll
         case projects of
           (x:[]) -> projectTitle x `shouldEqual` "testing"
