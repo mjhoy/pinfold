@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -e
+
+nix-shell --command 'cabal configure -fdevelopment && cabal install --bindir=./bin && ./bin/pinfold'
