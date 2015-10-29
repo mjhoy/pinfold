@@ -2,6 +2,9 @@
 
 ** development
 
+Note: a binary should be run with the current working directory as
+the root of the repository, with the proper snaplets configs set up.
+
 *** GHC/Haskell packages
 Using [[http://nixos.org/nix][Nix]]:
 
