@@ -1,4 +1,5 @@
 <apply template="base">
+  <bind tag="subtitle"> | Home</bind>
 
   <ifLoggedIn>
     <p>

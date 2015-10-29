@@ -1,7 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Snap web server</title>
-    <link rel="stylesheet" type="text/css" href="/screen.css"/>
+    <apply template="page-head"/>
   </head>
   <body>
     <div id="content">
