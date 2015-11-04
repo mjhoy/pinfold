@@ -2,4 +2,10 @@
 
 set -e
 
-nix-shell --command 'cabal configure -fdevelopment && cabal install --bindir=./bin && ./bin/pinfold'
+if [[ ! -e ./dist/build/pinfold/pinfold ]]; then
+    echo "No executable, building first..."
+    ./bin/build_server
+    echo "Done building, starting server..."
+fi
+
+./dist/build/pinfold/pinfold

@@ -1,0 +1,62 @@
+html {
+  padding: 0;
+  margin: 0;
+  background-color: #ffffff;
+  font-family: Helvetica, sans-serif; }
+
+body {
+  padding: 0;
+  margin: 0; }
+
+#body-inner {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1080px; }
+
+#site-header h1 a {
+  text-decoration: none; }
+#site-header h1 {
+  font-family: "Menlo", monospace;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 17px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px; }
+
+#site-navigation {
+  font-family: "Menlo", monospace;
+  float: right; }
+  #site-navigation ul, #site-navigation li {
+    display: inline;
+    display: inline-block; }
+  #site-navigation ul {
+    list-style: none; }
+  #site-navigation ul {
+    margin: 0; }
+  #site-navigation li {
+    padding-right: 10px; }
+    #site-navigation li:last-child {
+      padding-right: 0; }
+
+#page-header h1 {
+  font-weight: bold;
+  font-size: 1.4em;
+  text-transform: uppercase; }
+
+a {
+  text-decoration: underline;
+  color: blue; }
+  a:hover {
+    cursor: pointer;
+    text-decoration: underline; }
+
+img {
+  border: none; }
+
+#info {
+  font-size: 60%; }
+
+#userform label {
+  display: inline-block;
+  width: 80px; }

@@ -13,7 +13,6 @@ import Model.Project
 import Application
 ------------------------------------------------------------------------------
 
-
 projectTests :: SpecWith (SnapHspecState App)
 projectTests = do
   describe "Model.Project" $ do

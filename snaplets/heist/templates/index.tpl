@@ -1,20 +1,11 @@
 <apply template="base">
   <bind tag="subtitle"> | Home</bind>
 
-  <ifLoggedIn>
-    <p>
-      This is a simple demo page served using
-      <a href="http://snapframework.com/docs/tutorials/heist">Heist</a>
-      and the <a href="http://snapframework.com/">Snap</a> web framework.
-    </p>
+  <bind tag="pageHeader">
+    <h1>Index</h1>
+  </bind>
 
-    <p>Congrats!  You're logged in as '<loggedInUser/>'</p>
-
-    <p><a href="/logout">Logout</a></p>
-  </ifLoggedIn>
-
-  <ifLoggedOut>
-    <apply template="_login"/>
-  </ifLoggedOut>
-
+  <bind tag="main">
+    <p>This is the main page...</p>
+  </bind>
 </apply>

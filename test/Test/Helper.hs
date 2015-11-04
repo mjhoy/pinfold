@@ -16,6 +16,7 @@ import           Snap.Snaplet.Heist
 import           Snap.Snaplet.Auth
 import           Snap.Snaplet.Auth.Backends.PostgresqlSimple
 import           Snap.Snaplet.PostgresqlSimple
+import           Snap.Snaplet.Sass
 import           Snap.Snaplet.Session.Backends.CookieSession
 import           Data.Text.Encoding (encodeUtf8)
 import           Data.Text (unpack)
@@ -41,8 +42,10 @@ testApp = makeSnaplet "app" "Test application." Nothing $ do
 
   a <- nestSnaplet "auth" auth $ initPostgresAuth sess d
 
+  c <- nestSnaplet "sass" sass initSass
+
   addAuthSplices h auth
-  return $ App h s a d
+  return $ App h s a d c
 
 evalDb :: Handler App Postgres a -> SnapHspecM App a
 evalDb = eval . with db
@@ -70,7 +73,6 @@ createTestAdmin = do
             case res of
               Just aid -> return aid
               Nothing  -> error "couldn't create admin"
-          
 
 failure :: String -> SnapHspecM b ()
 failure s = setResult $ Fail Nothing s

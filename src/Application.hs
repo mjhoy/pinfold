@@ -15,6 +15,7 @@ import Snap.Snaplet.Heist
 import Snap.Snaplet.Auth
 import Snap.Snaplet.Session
 import Snap.Snaplet.PostgresqlSimple
+import Snap.Snaplet.Sass
 
 ------------------------------------------------------------------------------
 data App = App
@@ -22,6 +23,7 @@ data App = App
   , _sess  :: Snaplet SessionManager
   , _auth  :: Snaplet (AuthManager App)
   , _db    :: Snaplet Postgres
+  , _sass  :: Snaplet Sass
   }
 
 makeLenses ''App

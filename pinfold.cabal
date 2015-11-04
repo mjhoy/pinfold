@@ -31,7 +31,8 @@ Executable pinfold
                  xmlhtml                   >= 0.1     && < 0.3,
                  snaplet-postgresql-simple >= 0.6     && < 0.7,
                  postgresql-simple         >= 0.4     && < 0.5,
-                 transformers              >= 0.4.2   && < 0.5
+                 transformers              >= 0.4.2   && < 0.5,
+                 snaplet-sass              >= 0.1.2   && < 0.2
 
   build-depends:
     base                      >= 4.4      && < 5,
@@ -69,6 +70,7 @@ Test-Suite test-pinfold
                  snaplet-postgresql-simple >= 0.6     && < 0.7,
                  postgresql-simple         >= 0.4     && < 0.5,
                  transformers              >= 0.4.2   && < 0.5,
+                 snaplet-sass              >= 0.1.2   && < 0.2,
 
                  -- test depends:
                  hspec-snap                >= 0.4     && < 0.5,

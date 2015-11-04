@@ -1,8 +1,8 @@
-{ mkDerivation, base, bytestring, heist, lens
-, MonadCatchIO-transformers, mtl, snap, snap-core
-, snap-loader-static, snap-server, stdenv, text, time, xmlhtml
-, snaplet-postgresql-simple, transformers, postgresql-simple
-, hspec-snap, hspec, hspec-core
+{ mkDerivation, base, bytestring, heist, hspec, hspec-core
+, hspec-snap, lens, MonadCatchIO-transformers, mtl
+, postgresql-simple, snap, snap-core, snap-loader-static
+, snap-server, snaplet-postgresql-simple, snaplet-sass, stdenv
+, text, time, transformers, xmlhtml
 }:
 mkDerivation {
   pname = "pinfold";
@@ -11,10 +11,16 @@ mkDerivation {
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    base bytestring heist lens MonadCatchIO-transformers mtl snap
-    snap-core snap-loader-static snap-server text time xmlhtml
-    snaplet-postgresql-simple transformers postgresql-simple
-    hspec-snap hspec hspec-core
+    base bytestring heist lens MonadCatchIO-transformers mtl
+    postgresql-simple snap snap-core snap-loader-static snap-server
+    snaplet-postgresql-simple snaplet-sass text time transformers
+    xmlhtml
+  ];
+  testHaskellDepends = [
+    bytestring heist hspec hspec-core hspec-snap
+    MonadCatchIO-transformers mtl postgresql-simple snap snap-core
+    snap-loader-static snap-server snaplet-postgresql-simple
+    snaplet-sass text time transformers xmlhtml
   ];
   description = "Website for Jim Pinfold";
   license = stdenv.lib.licenses.unfree;
