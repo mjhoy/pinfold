@@ -7,15 +7,12 @@
 --
 -- The function `routes` is exported for testing.
 module Site
-  ( app
-  , routes
-  ) where
+       ( app
+       , routes
+       ) where
 
 ------------------------------------------------------------------------------
-import           Control.Applicative
-import           Control.Monad.IO.Class (liftIO)
 import           Data.ByteString (ByteString)
---import qualified Data.Text as T
 import           Snap.Core
 import           Snap.Snaplet
 import           Snap.Snaplet.Auth
@@ -25,73 +22,41 @@ import           Snap.Snaplet.Session.Backends.CookieSession
 import           Snap.Snaplet.PostgresqlSimple
 import           Snap.Snaplet.Sass
 import           Snap.Util.FileServe
-import           Heist
-import qualified Heist.Interpreted as I
 ------------------------------------------------------------------------------
-import           Model.Project
+import           Handler.Project
+import           Handler.Login
 ------------------------------------------------------------------------------
 import           Application
 
 
 ------------------------------------------------------------------------------
--- | Render login form
-handleLogin :: Handler App (AuthManager App) ()
-handleLogin = method GET handleForm <|> method POST handleFormSubmit
-  where
-    handleFormSubmit =
-        loginUser "login" "password" Nothing (\_ -> handleErr err) (redirect "/")
-      where
-        err = Just "Unknown user or password"
-    handleErr authError =
-        heistLocal (I.bindSplices errs) $ render "login"
-      where
-        errs = maybe mempty splice authError
-        splice err = "loginError" ## I.textSplice err
-    handleForm = render "login"
-
+-- | Not logged in.
+noUserHandler :: Handler App (AuthManager App) ()
+noUserHandler = redirect "/"
 
 ------------------------------------------------------------------------------
--- | Logs out and redirects the user to the site index.
-handleLogout :: Handler App (AuthManager App) ()
-handleLogout = logout >> redirect "/"
-
-
-------------------------------------------------------------------------------
--- | Handle create new project
-handleNewProject :: Handler App Postgres ()
-handleNewProject = method POST handleFormSubmit
-  where
-    handleFormSubmit = do
-      title <- getPostParam "title"
-      description <- getPostParam "description"
-      _newProject <- execute "INSERT INTO projects VALUES (?, ?)" (title, description)
-      redirect "/"
-
-handleProjects :: Handler App Postgres ()
-handleProjects = method GET getAllProjects
-  where
-    getAllProjects = do
-      allProjects <- queryProjectsAll
-      liftIO $ print (allProjects :: [Project])
+-- | Restricted routes
+restricted :: Handler App (AuthManager App) () -> Handler App App ()
+restricted h = with auth $ requireUser auth noUserHandler h
 
 ------------------------------------------------------------------------------
 -- | The application's routes.
 routes :: [(ByteString, Handler App App ())]
 routes = [
-    ------ user --------------------------
+    ------ Handler.Login
     ("/login",    with auth handleLogin)
   , ("/logout",   with auth handleLogout)
 
-    ------ projects ----------------------
-  , ("/project/new", with db handleNewProject)
-  , ("/projects",    with db handleProjects)
+    ------ Handler.Project
+  , ("/projects/new", restricted handleNewProject)
+  , ("/projects",    restricted handleProjects)
 
-    ------ assets ------------------------
+    ------ Sass assets
   , ("/sass", with sass sassServe)
+
+    ------ Static directory
   , ("",          serveDirectory "static")
-
   ]
-
 
 ------------------------------------------------------------------------------
 -- | The application initializer.
