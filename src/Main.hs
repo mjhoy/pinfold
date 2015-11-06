@@ -74,7 +74,8 @@ main = do
     -- directories, those are picked up automatically by the splice.
     (conf, site, cleanup) <- $(loadSnapTH [| getConf |]
                                           'getActions
-                                          ["snaplets/heist/templates"])
+                                          [ "snaplets/heist/templates"
+                                          , "snaplets/sass/src"])
 
     _ <- try $ httpServe conf site :: IO (Either SomeException ())
     cleanup
