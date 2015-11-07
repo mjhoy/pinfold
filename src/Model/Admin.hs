@@ -10,7 +10,6 @@ module Model.Admin
 
 --import Snap.Snaplet.Auth (AuthUser(..))
 import Snap.Snaplet.PostgresqlSimple
-import Data.Monoid
 
 -- todo:
 -- a function from AuthUser -> Maybe Admin

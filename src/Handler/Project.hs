@@ -7,14 +7,11 @@ module Handler.Project
 
 ------------------------------------------------------------------------------
 import           Control.Applicative
-import           Control.Monad.IO.Class (liftIO)
 import           Data.Text (pack)
-import qualified Data.ByteString as B
 import           Snap.Core
 import           Snap.Snaplet
 import           Snap.Snaplet.Auth
 import           Snap.Snaplet.Heist
-import           Snap.Snaplet.PostgresqlSimple
 import           Heist
 import qualified Heist.Interpreted as I
 ------------------------------------------------------------------------------
@@ -60,7 +57,7 @@ handleProjects = method GET handleGetAllProjects <|> method POST handleFormSubmi
           (Just a) -> do
             title <- getPostParam "title"
             description <- getPostParam "description"
-            res <- withTop db $ insertProject' title description (adminId a)
+            _res <- withTop db $ insertProject' title description (adminId a)
             redirect "/projects"
           Nothing -> do
             logError "Couldn't get admin"

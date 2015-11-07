@@ -9,17 +9,14 @@ module Handler.Login
 ------------------------------------------------------------------------------
 import           Data.Monoid
 import           Control.Applicative
-import           Data.ByteString (pack)
-import           Control.Monad.State.Lazy (liftIO)
 import           Snap.Core
 import           Snap.Snaplet
 import           Snap.Snaplet.Auth
 import           Snap.Snaplet.Heist
-import           Snap.Snaplet.PostgresqlSimple
 import           Heist
-import qualified Data.Text as T
+import           Data.Readable
+import qualified Data.Text.Encoding as TE
 import qualified Heist.Interpreted as I
-import qualified Data.ByteString.Char8 as B8
 ------------------------------------------------------------------------------
 import           Application
 import           Model.Admin
@@ -27,12 +24,8 @@ import           Model.Admin
 
 ------------------------------------------------------------------------------
 -- | Move from Snaplet.Auth's internal text representation to an integer
---
--- This is somewhat unsafe, however if you look in the postgres backend
--- you see it is basically the reverse of how userId is modified to be
--- stored in the database.
-uidToInt :: UserId -> Integer
-uidToInt uid = read $ T.unpack $ unUid uid
+uidToInt :: UserId -> Maybe Integer
+uidToInt uid = fromText $ unUid uid
 
 
 ------------------------------------------------------------------------------
@@ -43,7 +36,10 @@ currentAdmin = do
   case curUser of
     (Just u) -> case userId u of
       (Just uid) -> do
-        withTop db $ adminForAuthUser $ uidToInt uid
+        case uidToInt uid of
+          (Just uid') -> do
+             withTop db $ adminForAuthUser uid'
+          Nothing -> logError ("Error parsing uid: " <> (TE.encodeUtf8 (unUid uid))) >> return Nothing
       Nothing -> return Nothing
     Nothing -> return Nothing
 
@@ -64,13 +60,18 @@ handleLoginSubmit = loginUser "login" "password" Nothing failure success
         (Just curUser) -> do
           case userId curUser of
             (Just uid) -> do
-              let uid'  = uidToInt uid
-              res <- withTop db $ ensureAdminFromAuthUser uid'
-              case res of
-                Just x -> redirect "/"
-                _ -> do
-                  logError "no aid found!"
+              let uid' = uidToInt uid
+              case uid' of
+                Nothing -> do
+                  logError $ "error parsing userId: " <> (TE.encodeUtf8 (unUid uid))
                   redirect "/"
+                (Just uid'') -> do
+                  res <- withTop db $ ensureAdminFromAuthUser uid''
+                  case res of
+                    Just _x -> redirect "/"
+                    _ -> do
+                      logError "no aid found!"
+                      redirect "/"
             Nothing -> do
               logError "unexpected error: no user id"
               redirect "/"

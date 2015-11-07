@@ -6,7 +6,7 @@ let
 
   f = { mkDerivation, base, bytestring, heist, hspec, hspec-core
       , hspec-snap, lens, MonadCatchIO-transformers, mtl
-      , postgresql-simple, snap, snap-core, snap-loader-static
+      , postgresql-simple, readable, snap, snap-core, snap-loader-static
       , snap-server, snaplet-postgresql-simple, snaplet-sass, stdenv
       , text, time, transformers, xmlhtml
       }:
@@ -18,14 +18,14 @@ let
         isExecutable = true;
         executableHaskellDepends = [
           base bytestring heist lens MonadCatchIO-transformers mtl
-          postgresql-simple snap snap-core snap-loader-static snap-server
-          snaplet-postgresql-simple snaplet-sass text time transformers
-          xmlhtml
+          postgresql-simple readable snap snap-core snap-loader-static
+          snap-server snaplet-postgresql-simple snaplet-sass text time
+          transformers xmlhtml
         ];
         testHaskellDepends = [
           bytestring heist hspec hspec-core hspec-snap
-          MonadCatchIO-transformers mtl postgresql-simple snap snap-core
-          snap-loader-static snap-server snaplet-postgresql-simple
+          MonadCatchIO-transformers mtl postgresql-simple readable snap
+          snap-core snap-loader-static snap-server snaplet-postgresql-simple
           snaplet-sass text time transformers xmlhtml
         ];
         description = "Website for Jim Pinfold";
