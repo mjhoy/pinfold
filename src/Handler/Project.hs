@@ -3,17 +3,20 @@
 module Handler.Project
        ( handleNewProject
        , handleProjects
+       , handleDeleteProject
        ) where
 
 ------------------------------------------------------------------------------
 import           Control.Applicative
 import           Data.Text (pack)
+import qualified Data.ByteString.Char8 as B8
 import           Snap.Core
 import           Snap.Snaplet
 import           Snap.Snaplet.Auth
 import           Snap.Snaplet.Heist
 import           Heist
 import qualified Heist.Interpreted as I
+import           Data.Readable
 ------------------------------------------------------------------------------
 import           Application
 import           Model.Project
@@ -43,8 +46,27 @@ handleNewProject = method GET handleForm
     handleForm = do
       render "projects/new"
 
+
 ------------------------------------------------------------------------------
--- | Handle get projects index
+-- | Handle delete project
+handleDeleteProject :: Handler App (AuthManager App) ()
+handleDeleteProject = method GET handleDelete
+  where
+    handleDelete = do
+      pid <- getParam "id"
+      case pid >>= fromBS of
+        Just pid' -> do
+          r <- withTop db $ deleteProject pid'
+          case r of
+            1 -> redirect "/content" -- Project successfully deleted
+            _ -> redirect "/content" -- Project not found
+        Nothing -> redirect "/content"
+
+
+------------------------------------------------------------------------------
+-- | Handle projects
+-- GET "/content"   -> get all projects index
+-- POST "/projects" -> handle the project creation
 handleProjects :: Handler App (AuthManager App) ()
 handleProjects = method GET handleGetAllProjects <|> method POST handleFormSubmit
   where
@@ -59,7 +81,7 @@ handleProjects = method GET handleGetAllProjects <|> method POST handleFormSubmi
             title <- getPostParam "title"
             description <- getPostParam "description"
             _res <- withTop db $ insertProject' title description (adminId a)
-            redirect "/projects"
+            redirect "/content"
           Nothing -> do
             logError "Couldn't get admin"
             redirect "/projects"

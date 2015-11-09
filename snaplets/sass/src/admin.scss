@@ -83,8 +83,6 @@ button {
 
 .button {
   font-family: inherit;
-
-  font-family: inherit;
   font-size: 100%;
   padding: 0.5em 1em;
   color: rgba(0, 0, 0, 0.8);
@@ -107,5 +105,68 @@ button {
   color: #FFF;
   &:hover {
     background-color: #444;
+  }
+}
+
+// projects index
+#project-index {
+  h4 { font-size: 1.3em; }
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  &> li {
+    margin: 1em 0;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1em;
+    &:last-child {
+      border: none;
+    }
+  }
+
+  ul.admin-actions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      &:after {
+        content: " | ";
+      }
+      &:last-child {
+        &:after {
+          content: "";
+        }
+      }
+    }
+  }
+}
+
+#page-actions {
+  ul {
+    float: right;
+    margin-top: 2em;
+  }
+  li {
+    display: inline-block;
+    padding: 5px;
+    font-family: inherit;
+    font-size: 100%;
+    padding: 0.5em 1em;
+    color: rgba(0, 0, 0, 0.8);
+    border: 0px none transparent;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    -moz-user-select: none;
+    box-sizing: border-box;
+    background-color: #123490;
+    &, a {
+      color: #FFF;
+      text-decoration: none;
+    }
+    &:hover {
+      background-color: black;
+    }
   }
 }

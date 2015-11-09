@@ -2,7 +2,7 @@
   <ul>
     <li>Logged in as <loggedInUser/></li>
     <li>
-      <a href="/projects/new">+ Project</a>
+      <a href="/content">Content</a>
     </li>
 
     <li class="logout">

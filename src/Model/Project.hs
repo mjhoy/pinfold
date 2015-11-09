@@ -5,8 +5,10 @@ module Model.Project
   ( Project(..)
   , queryProjectsAll
   , insertProject
+  , deleteProject
   ) where
 
+import           GHC.Int
 import qualified Data.Text as T
 import           Database.PostgreSQL.Simple.FromRow
 import           Snap.Snaplet.PostgresqlSimple
@@ -44,3 +46,8 @@ insertProject t d aid = do
   where
     sql  = "insert into projects (title, description, aid) values (?,?,?) returning pid"
     args = (t,d,aid)
+
+deleteProject :: HasPostgres m =>
+                 Integer ->
+                 m Int64
+deleteProject pid = execute "delete from projects where pid = ?" (Only pid)

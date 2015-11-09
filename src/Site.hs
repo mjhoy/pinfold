@@ -39,6 +39,13 @@ noUserHandler = redirect "/"
 restricted :: Handler App (AuthManager App) () -> Handler App App ()
 restricted h = with auth $ requireUser auth noUserHandler h
 
+
+------------------------------------------------------------------------------
+-- | The overall `content` administration route
+-- for now, hand off to the Projects handler
+handleContent :: Handler App (AuthManager App) ()
+handleContent = handleProjects
+
 ------------------------------------------------------------------------------
 -- | The application's routes.
 routes :: [(ByteString, Handler App App ())]
@@ -48,8 +55,10 @@ routes = [
   , ("/logout",   with auth handleLogout)
 
     ------ Handler.Project
-  , ("/projects/new", restricted handleNewProject)
-  , ("/projects",     restricted handleProjects)
+  , ("/projects/new",    restricted handleNewProject)
+  , ("/projects/delete", restricted handleDeleteProject)
+  , ("/projects",        restricted handleProjects)
+  , ("/content",         restricted handleContent)
 
     ------ Sass assets
   , ("/sass", with sass sassServe)

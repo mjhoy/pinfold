@@ -23,6 +23,10 @@
         <h1><a href="/">Jim Pinfold</a> [prototype]</h1>
       </header>
 
+      <div id="page-actions">
+        <pageActions/>
+      </div>
+
       <header id="page-header">
         <pageHeader/>
       </header>
