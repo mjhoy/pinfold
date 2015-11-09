@@ -29,6 +29,7 @@ splicesFromProject project = do
   "projectTitle"       ## I.textSplice (projectTitle project)
   "projectDescription" ## I.textSplice (projectDescription project)
   "projectId"          ## I.textSplice (pack $ show $ projectId project)
+  "projectAdminId"     ## I.textSplice (pack $ show $ projectAid project)
 
 projectSplices :: [Project] -> Splices (SnapletISplice App)
 projectSplices projects = "projects" ## r

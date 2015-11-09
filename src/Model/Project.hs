@@ -12,9 +12,11 @@ import           Database.PostgreSQL.Simple.FromRow
 import           Snap.Snaplet.PostgresqlSimple
 import qualified Data.ByteString as BS
 
+import Model.Admin
+
 data Project = Project
   { projectId :: Integer
-  , projectAid :: Integer
+  , projectAid :: AdminId
   , projectTitle :: T.Text
   , projectDescription :: T.Text
   } deriving (Eq, Show)
@@ -34,7 +36,7 @@ queryProjectsAll = query_ "select pid, aid, title, description from projects"
 insertProject :: HasPostgres m =>
                  BS.ByteString ->  -- Title
                  BS.ByteString ->  -- Description
-                 Integer -> -- aid
+                 AdminId -> -- aid
                  m (Maybe Integer) -- a new project id
 insertProject t d aid = do
     [Only r] <- query sql args

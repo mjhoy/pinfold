@@ -13,11 +13,12 @@ import Test.Hspec.Snap
 ------------------------------------------------------------------------------
 import Test.Helper
 import Model.Item
+import Model.Admin
 import Model.Project
 import Application
 ------------------------------------------------------------------------------
 
-testProject :: Integer -> Handler App Postgres (Maybe Integer)
+testProject :: AdminId -> Handler App Postgres (Maybe Integer)
 testProject uid = do
   insertProject "Test project" "Short description" uid
 

@@ -13,7 +13,8 @@
             <b><projectTitle /></b>
           </p>
           <p>
-            <projectDescription />
+            <projectDescription /> <br/>
+            <i>Created by admin: <projectAdminId /></i>
           </p>
         </li>
       </projects>

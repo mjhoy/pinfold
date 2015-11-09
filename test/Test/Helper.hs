@@ -58,7 +58,7 @@ clearDb = do
   _ <- execute "delete from auth_users" ()
   return ()
 
-createTestAdmin :: Handler App App Integer
+createTestAdmin :: Handler App App AdminId
 createTestAdmin = do
   u <- with auth $ createUser "mjh" (encodeUtf8 "pass")
   case u of
