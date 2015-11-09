@@ -8,18 +8,19 @@
   <bind tag="main">
 
     <form id="projectform" method="post" action="/projects">
+
       <div class="form-item">
-        <label for="title">Title:</label>
+        <label for="title">Title</label>
         <input type="text" name="title" size="20" />
       </div>
 
       <div class="form-item">
-        <label for="description">Description:</label>
+        <label for="description">Description</label>
         <input type="text" name="description" size="20" />
       </div>
 
       <div class="form-item">
-        <input type="submit" value="Create project" />
+        <button class="button button-primary" type="submit">Create project</button>
       </div>
     </form>
 

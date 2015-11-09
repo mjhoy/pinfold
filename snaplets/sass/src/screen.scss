@@ -22,6 +22,7 @@ body {
     text-decoration: none;
   }
   h1 {
+    margin-top: 2em;
     font-family: "Menlo", monospace;
     font-weight: normal;
     text-transform: uppercase;
@@ -48,8 +49,10 @@ body {
 #page-header {
   h1 {
     font-weight: bold;
-    font-size: 1.4em;
-    text-transform: uppercase;
+    font-size: 2.4em;
+    color: #777;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: 300;
   }
 }
 
