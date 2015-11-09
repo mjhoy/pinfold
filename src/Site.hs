@@ -49,7 +49,7 @@ routes = [
 
     ------ Handler.Project
   , ("/projects/new", restricted handleNewProject)
-  , ("/projects",    restricted handleProjects)
+  , ("/projects",     restricted handleProjects)
 
     ------ Sass assets
   , ("/sass", with sass sassServe)
