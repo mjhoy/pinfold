@@ -12,6 +12,7 @@ module Site
        ) where
 
 ------------------------------------------------------------------------------
+import           Control.Lens
 import           Data.ByteString (ByteString)
 import           Snap.Core
 import           Snap.Snaplet
@@ -22,6 +23,11 @@ import           Snap.Snaplet.Session.Backends.CookieSession
 import           Snap.Snaplet.PostgresqlSimple
 import           Snap.Snaplet.Sass
 import           Snap.Util.FileServe
+------------------------------------------------------------------------------
+import           Heist
+import           Heist.Interpreted
+import qualified Data.Text as T
+import qualified Text.XmlHtml as X
 ------------------------------------------------------------------------------
 import           Handler.Project
 import           Handler.Login
@@ -67,6 +73,27 @@ routes = [
   , ("",          serveDirectory "static")
   ]
 
+ifBound :: SnapletISplice b
+ifBound = do
+  inp <- getParamNode
+  let t = X.getAttribute "tag" inp
+  case t of
+    Nothing -> return mempty
+    Just t' -> do
+      st <- getHS
+      let s = lookupSplice t' st
+      case s of
+        Nothing -> return mempty
+        Just _x -> runChildren
+
+addHelperSplices :: HasHeist b =>
+                    Snaplet (Heist b) ->
+                    Initializer b v ()
+addHelperSplices h = addConfig h $ (set scInterpretedSplices $ splices)
+                                   mempty
+  where splices = do
+          "if-bound" ## ifBound
+
 ------------------------------------------------------------------------------
 -- | The application initializer.
 app :: SnapletInit App App
@@ -84,5 +111,12 @@ app = makeSnaplet "app" "An snaplet example application." Nothing $ do
 
     addRoutes routes
     addAuthSplices h auth
+    addHelperSplices h
+
+--    addConfig h config
+
+    modifyHeistState $ bindSplices $ do
+      "if-bound" ## ifBound
+
     return $ App h s a d c
 

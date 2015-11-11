@@ -14,6 +14,13 @@
   </bind>
 
   <bind tag="main">
+    <bind tag="test">
+      Test.
+    </bind>
+    <if-bound tag="test">
+      around
+      <test />
+    </if-bound>
     <ul id="project-index">
       <projects>
         <li>
