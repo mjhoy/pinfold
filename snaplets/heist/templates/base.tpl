@@ -3,7 +3,8 @@
   <head>
     <apply template="_page_head"/>
   </head>
-  <body>
+
+  <body class="${bodyClasses}">
     <ifLoggedIn>
       <apply template="_admin_nav"/>
     </ifLoggedIn>
@@ -23,9 +24,13 @@
         <h1><a href="/">Jim Pinfold</a> [prototype]</h1>
       </header>
 
-      <div id="page-actions">
-        <pageActions/>
-      </div>
+      <ifBound tag="pageActions">
+        <div id="page-actions">
+          <ul>
+            <pageActions/>
+          </ul>
+        </div>
+      </ifBound>
 
       <header id="page-header">
         <pageHeader/>

@@ -9,7 +9,6 @@ module Handler.Project
 ------------------------------------------------------------------------------
 import           Control.Applicative
 import           Data.Text (pack)
-import qualified Data.ByteString.Char8 as B8
 import           Snap.Core
 import           Snap.Snaplet
 import           Snap.Snaplet.Auth
