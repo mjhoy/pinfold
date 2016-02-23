@@ -28,8 +28,9 @@ Running ghci:
 Make sure Postgres is up and running.
 
 To set up the database, you first need to create and edit the database
-configuration in `snaplets/postgresql-simple/devel.cfg` and in
-`snaplets/postgresql-simple/test.cfg`.
+configuration in =snaplets/postgresql-simple/devel.cfg= and in
+=snaplets/postgresql-simple/test.cfg=. There is an example config in
+that directory.
 
 #+begin_src sh
   cd ./snaplets/postgresql-simple
