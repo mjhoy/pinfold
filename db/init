@@ -23,15 +23,15 @@ setup () {
         fi
     fi
 
-    dropdb --if-exists $db
-    createdb $db
+    dropdb --if-exists -h $host -p $port -U $user $db
+    createdb -h $host -p $port -U $user $db
     echo "createdb $db"
 
     migrations=( 001-initial-db )
 
     for m in "${migrations[@]}" ; do
         echo "running db/$m"
-        psql -h $host -p $port $db $user < db/$m.sql
+        psql -h $host -p $port -U $user $db < db/$m.sql
     done
 }
 
