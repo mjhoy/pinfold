@@ -6,6 +6,7 @@ Note: a binary should be run with the current working directory as
 the root of the repository, with the proper snaplets configs set up.
 
 *** GHC/Haskell packages
+
 Using [[http://nixos.org/nix][Nix]]:
 
 #+begin_src sh
@@ -26,7 +27,9 @@ Running ghci:
 
 Make sure Postgres is up and running.
 
-To set up the database:
+To set up the database, you first need to create and edit the database
+configuration in `snaplets/postgresql-simple/devel.cfg` and in
+`snaplets/postgresql-simple/test.cfg`.
 
 #+begin_src sh
   cd ./snaplets/postgresql-simple
@@ -37,11 +40,13 @@ To set up the database:
   # now edit devel.cfg and test.cfg with the appropriate settings
   # make sure you use different databases!
 
-  chmod 444 devel.cfg test.cfg
+  chmod 600 devel.cfg test.cfg
 
   cd ../../
 
-  ./db/init # warning: this will wipe out the database defined in devel.cfg if exists
+  # warning: this will wipe out the databases defined in devel.cfg and
+  # in test.cfg if they exist
+  ./db/init
 #+end_src
 
 *** Testing
