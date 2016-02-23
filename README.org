@@ -52,7 +52,8 @@ that directory.
 
 *** Testing
 
-This will create the test database and run =cabal test= in nix-shell:
+This will create the test database and run =cabal test= (you should
+run this from within =nix-shell= if you use nix):
 
 #+begin_src sh
   ./bin/run_tests
