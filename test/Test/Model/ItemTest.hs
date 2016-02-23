@@ -8,14 +8,14 @@ module Test.Model.ItemTest where
 import           Snap.Snaplet
 import           Snap.Snaplet.PostgresqlSimple
 ------------------------------------------------------------------------------
-import Test.Hspec
-import Test.Hspec.Snap
+import           Test.Hspec
+import           Test.Hspec.Snap
 ------------------------------------------------------------------------------
-import Test.Helper
-import Model.Item
-import Model.Admin
-import Model.Project
-import Application
+import           Test.Helper
+import           Model.Item
+import           Model.Admin
+import           Model.Project
+import           Application
 ------------------------------------------------------------------------------
 
 testProject :: AdminId -> Handler App Postgres (Maybe Integer)

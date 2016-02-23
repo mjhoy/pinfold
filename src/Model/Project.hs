@@ -38,7 +38,7 @@ queryProjectsAll = query_ "select pid, aid, title, description from projects"
 insertProject :: HasPostgres m =>
                  BS.ByteString ->  -- Title
                  BS.ByteString ->  -- Description
-                 AdminId -> -- aid
+                 AdminId ->        -- aid
                  m (Maybe Integer) -- a new project id
 insertProject t d aid = do
     [Only r] <- query sql args
