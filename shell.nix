@@ -7,8 +7,8 @@ let
   f = { mkDerivation, base, bytestring, heist, hspec, hspec-core
       , hspec-snap, lens, MonadCatchIO-transformers, mtl
       , postgresql-simple, readable, snap, snap-core, snap-loader-static
-      , snap-server, snaplet-postgresql-simple, snaplet-sass, stdenv
-      , text, time, transformers, xmlhtml
+      , snap-loader-dynamic, snap-server, snaplet-postgresql-simple, snaplet-sass
+      , stdenv , text, time, transformers, xmlhtml
       }:
       mkDerivation {
         pname = "pinfold";
@@ -19,8 +19,8 @@ let
         executableHaskellDepends = [
           base bytestring heist lens MonadCatchIO-transformers mtl
           postgresql-simple readable snap snap-core snap-loader-static
-          snap-server snaplet-postgresql-simple snaplet-sass text time
-          transformers xmlhtml
+          snap-loader-dynamic snap-server snaplet-postgresql-simple
+          snaplet-sass text time transformers xmlhtml
         ];
         testHaskellDepends = [
           bytestring heist hspec hspec-core hspec-snap
